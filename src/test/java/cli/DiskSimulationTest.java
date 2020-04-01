@@ -90,11 +90,11 @@ public class DiskSimulationTest {
     DiskSimulation.main(args);
     assertFalse(DiskSimulation.validArguments);
 
-    args = new String[]{""};
+    args = new String[] {""};
     DiskSimulation.main(args);
     assertFalse(DiskSimulation.validArguments);
 
-    args = new String[]{"oneargument"};
+    args = new String[] {"oneargument"};
     DiskSimulation.main(args);
     assertFalse(DiskSimulation.validArguments);
   }
