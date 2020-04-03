@@ -1,6 +1,7 @@
 package main.java.cli;
 
-import java.io.File;
+import java.io.*;
+import java.util.LinkedList;
 
 /** This class serves as the main entry point to the disk simulation program. */
 public class DiskSimulation {
@@ -85,5 +86,26 @@ public class DiskSimulation {
       System.err.println("Wrong number of arguments were given.");
       validArguments = false;
     }
+  }
+
+  /**
+   * Get block requests from given file. File should be a .txt file with each block requested
+   * separated by a new line
+   *
+   * @param file File of requests.
+   * @return LinkedList of requests as integers.
+   * @throws IOException From BufferedReader, and FileReader.
+   */
+  private static LinkedList<Integer> getRequestsFromFile(File file) throws IOException {
+    BufferedReader br = new BufferedReader(new FileReader(file));
+
+    LinkedList<Integer> requests = new LinkedList<Integer>();
+
+    String line;
+    while ((line = br.readLine()) != null) {
+      requests.add(Integer.parseInt(line));
+    }
+
+    return requests;
   }
 }
