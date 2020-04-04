@@ -6,22 +6,22 @@ import java.math.RoundingMode;
 /** Represents a single Disk. Provides all disk functionality. */
 public class Disk {
   /** Default number of cylinders. */
-  private static int DEFAULT_CYLINDERS = 1024;
+  public static final int DEFAULT_CYLINDERS = 1024;
 
   /** Default speed. */
-  private static int DEFAULT_SPEED = 7200;
+  public static final int DEFAULT_SPEED = 7200;
 
   /** Default head start delay. */
-  private static int DEFAULT_START_DELAY = 1;
+  public static final int DEFAULT_START_DELAY = 1;
 
   /** Default head stop delay. */
-  private static int DEFAULT_STOP_DELAY = 1;
+  public static final int DEFAULT_STOP_DELAY = 1;
 
   /** Default time to travel. */
-  private static Double DEFAULT_TIME_TO_TRAVEL = 0.15;
+  public static final Double DEFAULT_TIME_TO_TRAVEL = 0.15;
 
   /** Default latency. */
-  private static Double DEFAULT_LATENCY = 4.2;
+  public static Double DEFAULT_LATENCY = 4.2;
 
   /** Number of cylinders. */
   private int cylinders;
@@ -40,6 +40,9 @@ public class Disk {
 
   /** Latency in milliseconds. */
   private Double latency;
+
+  /** Latest position of disk head. */
+  private int currentHeadPosition;
 
   /**
    * Gets the number of cylinders of the Disk.
@@ -147,6 +150,22 @@ public class Disk {
    */
   public void setLatency(Double latency) {
     this.latency = latency;
+  }
+
+  /**
+   * Gets the current cylinder disk head is on.
+   * @return Cylinder number.
+   */
+  public int getCurrentHeadPosition() {
+    return currentHeadPosition;
+  }
+
+  /**
+   * Sets the current cylinder the disk head is on.
+   * @param currentHeadPosition Cylinder number.
+   */
+  public void setCurrentHeadPosition(int currentHeadPosition) {
+    this.currentHeadPosition = currentHeadPosition;
   }
 
   /** Default constructor. Sets number of cylinders and speed to default values. */

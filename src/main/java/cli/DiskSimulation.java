@@ -1,6 +1,13 @@
 package main.java.cli;
 
 import java.io.*;
+
+import main.java.algorithms.Fifo;
+import main.java.simulator.Disk;
+import main.java.simulator.Runner;
+import main.java.simulator.Scheduler;
+
+import java.io.File;
 import java.util.LinkedList;
 
 /** This class serves as the main entry point to the disk simulation program. */
@@ -37,6 +44,21 @@ public class DiskSimulation {
     // Parse arguments. Assume arguments are all valid before parsing.
     validArguments = true;
     parseArguments(args);
+
+    try {
+      // Parse input file and add to request list.
+      LinkedList<Integer> requests = getRequestsFromFile(new File(args[2]));
+
+      // Create new runner simulation.
+      Runner simulation = new Runner(new Disk(), requests,1, new Fifo());
+
+      // Run simulation and print total time.
+      System.out.println(simulation.run());
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
   /**
