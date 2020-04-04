@@ -20,9 +20,9 @@ public class Runner {
   /**
    * Simulates running multiple request reads. Starts by setting the disk's head to the specified
    * starting cylinder. Then, using the scheduler, fills the request queue and reads requests based
-   * on the specified algorithm.
+   * on the specified algorithm. Does this until there are no more request's in the scheduler's queue.
    *
-   * @return Total time to read requests in milliseconds.
+   * @return Total time requests spent in queue in milliseconds.
    */
   public Double run() {
 
@@ -33,7 +33,7 @@ public class Runner {
     do {
       scheduler.fillQueue();
       scheduler.read();
-    } while (!scheduler.getRequests().isEmpty());
+    } while (!scheduler.getQueue().isEmpty());
 
     return scheduler.getQueueTotalTime();
   }

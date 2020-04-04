@@ -50,10 +50,12 @@ public class DiskSimulation {
       LinkedList<Integer> requests = getRequestsFromFile(new File(args[2]));
 
       // Create new runner simulation.
-      Runner simulation = new Runner(new Disk(), requests,1, new Fifo());
+      Runner simulation = new Runner(new Disk(), requests,50, new Fifo());
 
       // Run simulation and print total time.
-      System.out.println(simulation.run());
+      Double totalQueueTime = simulation.run();
+      System.out.printf("Total queue time: %.1f\n", totalQueueTime);
+      System.out.printf("Average queue wait time: %.1f", totalQueueTime / requests.size());
 
     } catch (IOException e) {
       e.printStackTrace();

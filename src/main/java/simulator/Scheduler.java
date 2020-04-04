@@ -45,6 +45,10 @@ public class Scheduler {
     return requests;
   }
 
+  public LinkedList<Request> getQueue() {
+    return queue;
+  }
+
   /**
    * Takes requests and queueDepth to make a new Scheduler instance.
    *
@@ -72,11 +76,13 @@ public class Scheduler {
    * @return Scheduler's queue after fill.
    */
   public LinkedList<Request> fillQueue() {
-    int currentQueueSize = queue.size();
-    int availableSpacesInQueue = queueDepth - currentQueueSize;
+    if (!requests.isEmpty()) {
+      int currentQueueSize = queue.size();
+      int availableSpacesInQueue = queueDepth - currentQueueSize;
 
-    for (int i = 0; i < availableSpacesInQueue; i++) {
-      queue.add(requests.remove());
+      for (int i = 0; i < availableSpacesInQueue; i++) {
+        queue.add(requests.remove());
+      }
     }
     return queue;
   }
@@ -85,7 +91,9 @@ public class Scheduler {
    * Simulates scheduling a read operation. Sorts the scheduler's queue based on the chosen
    * scheduling algorithm. Calculates the time to get the next request in the queue after sorting
    * based on the current position of the disk's head. After time has been calculated, removes
-   * request from queue.
+   * request from queue. Updates the request's total time to be that of its current time plus the
+   * time to seek to that request. Adds the seek time of the current requests to the time of the
+   * remaining requests in the queue.
    *
    * @return Time to read request.
    */
@@ -93,13 +101,21 @@ public class Scheduler {
     // Sort queue based on algorithm
     queue = algorithmClass.sort(queue);
 
-    // Now that the queue is sorted, retrieve the next block
+    // Now that the queue is sorted, simulate retrieving the next block and obtain seek time
     Request requestToRetrieve = queue.remove();
     Double seekTime =
         disk.getSeekTime(disk.getCurrentHeadPosition(), requestToRetrieve.getNumber());
 
-    requestToRetrieve.setTime(seekTime);
-    queueTotalTime += seekTime;
+    // Add seek time to requests current wait time
+    requestToRetrieve.setTime(requestToRetrieve.getTime() + seekTime);
+
+    // Add request's time to total queue time
+    queueTotalTime += requestToRetrieve.getTime();
+
+    // For the remaining requests in the queue, add the current request's seek time to its time
+    for (Request r : queue) {
+      r.setTime(r.getTime() + seekTime);
+    }
 
     // Update the disk head position to block retrieved
     disk.setCurrentHeadPosition(requestToRetrieve.getNumber());

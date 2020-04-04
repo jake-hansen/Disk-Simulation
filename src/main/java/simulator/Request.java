@@ -21,6 +21,7 @@ public class Request {
 
   /**
    * Get cylinder number for request.
+   *
    * @return Cylinder number.
    */
   public int getNumber() {
@@ -29,6 +30,7 @@ public class Request {
 
   /**
    * Set cylinder number for request.
+   *
    * @param number Cylinder number.
    */
   public void setNumber(int number) {
@@ -37,6 +39,7 @@ public class Request {
 
   /**
    * Get time for request.
+   *
    * @return Time in milliseconds.
    */
   public Double getTime() {
@@ -45,9 +48,19 @@ public class Request {
 
   /**
    * Set time for request.
+   *
    * @param time Time in milliseconds.
    */
   public void setTime(Double time) {
     this.time = time;
+  }
+
+  /**
+   * Converts the request to a string.
+   * @return String representing a request.
+   */
+  @Override
+  public String toString() {
+    return "Request block: " + number + " Time: " + time;
   }
 }
