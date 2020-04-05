@@ -227,7 +227,7 @@ public class Disk {
               + getLatency();
 
       BigDecimal round = BigDecimal.valueOf(calculation);
-      round = round.setScale(1, RoundingMode.HALF_UP);
+      round = round.setScale(2, RoundingMode.HALF_UP);
       return round.doubleValue();
     }
   }

@@ -9,5 +9,5 @@ public abstract class Algorithm {
   /** Name of algorithm. */
   String name;
 
-  public abstract LinkedList<Request> sort(LinkedList<Request> queue);
+  public abstract LinkedList<Request> sort(LinkedList<Request> queue, Integer currentHeadPosition);
 }

@@ -3,6 +3,7 @@ package main.java.cli;
 import java.io.*;
 
 import main.java.algorithms.Fifo;
+import main.java.algorithms.Sstf;
 import main.java.simulator.Disk;
 import main.java.simulator.Runner;
 import main.java.simulator.Scheduler;
@@ -50,7 +51,7 @@ public class DiskSimulation {
       LinkedList<Integer> requests = getRequestsFromFile(new File(args[2]));
 
       // Create new runner simulation.
-      Runner simulation = new Runner(new Disk(), requests,50, new Fifo());
+      Runner simulation = new Runner(new Disk(), requests,10, new Sstf());
 
       // Run simulation and print total time.
       Double totalQueueTime = simulation.run();

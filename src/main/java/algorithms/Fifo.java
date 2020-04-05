@@ -18,7 +18,7 @@ public class Fifo extends Algorithm {
    * @return Sorted queue using FIFO strategy.
    */
   @Override
-  public LinkedList<Request> sort(LinkedList<Request> queue) {
+  public LinkedList<Request> sort(LinkedList<Request> queue, Integer currentHeadPosition) {
     // FIFO algorithm does not modify order of requests in queue
     return queue;
   }

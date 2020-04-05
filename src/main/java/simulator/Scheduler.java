@@ -99,12 +99,13 @@ public class Scheduler {
    */
   public Request read() {
     // Sort queue based on algorithm
-    queue = algorithmClass.sort(queue);
+    queue = algorithmClass.sort(queue, disk.getCurrentHeadPosition());
 
     // Now that the queue is sorted, simulate retrieving the next block and obtain seek time
     Request requestToRetrieve = queue.remove();
     Double seekTime =
         disk.getSeekTime(disk.getCurrentHeadPosition(), requestToRetrieve.getNumber());
+    System.out.println(disk.getCurrentHeadPosition() + " -> " + requestToRetrieve.getNumber() + " Seek time: " + seekTime);
 
     // Add seek time to requests current wait time
     requestToRetrieve.setTime(requestToRetrieve.getTime() + seekTime);

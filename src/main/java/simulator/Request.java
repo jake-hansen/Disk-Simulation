@@ -4,7 +4,7 @@ package main.java.simulator;
 public class Request {
 
   /** Cylinder number. */
-  private int number;
+  private Integer number;
 
   /** Time to get request. */
   private Double time;
@@ -24,7 +24,7 @@ public class Request {
    *
    * @return Cylinder number.
    */
-  public int getNumber() {
+  public Integer getNumber() {
     return number;
   }
 
@@ -33,7 +33,7 @@ public class Request {
    *
    * @param number Cylinder number.
    */
-  public void setNumber(int number) {
+  public void setNumber(Integer number) {
     this.number = number;
   }
 
@@ -57,6 +57,7 @@ public class Request {
 
   /**
    * Converts the request to a string.
+   *
    * @return String representing a request.
    */
   @Override
