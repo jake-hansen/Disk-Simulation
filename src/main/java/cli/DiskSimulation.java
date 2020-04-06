@@ -1,22 +1,23 @@
 package main.java.cli;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
 
+import main.java.algorithms.Algorithm;
+import main.java.algorithms.Cscan;
 import main.java.algorithms.Fifo;
 import main.java.algorithms.Sstf;
 import main.java.simulator.Disk;
 import main.java.simulator.Runner;
-import main.java.simulator.Scheduler;
-
-import java.io.File;
-import java.util.LinkedList;
 
 /** This class serves as the main entry point to the disk simulation program. */
 public class DiskSimulation {
 
   /** Contains allowed algorithm types. */
-  public enum ALGORITHMS {
-    SCAN,
+  public enum Algorithms {
     CSCAN,
     FIFO,
     SSTF
@@ -48,20 +49,41 @@ public class DiskSimulation {
 
     try {
       // Parse input file and add to request list.
-      LinkedList<Integer> requests = getRequestsFromFile(new File(args[2]));
+      String fileName = args[2];
+      LinkedList<Integer> requests = getRequestsFromFile(new File(fileName));
 
+      Algorithm algorithm;
+      switch (Algorithms.valueOf(args[0].toUpperCase())) {
+        case CSCAN:
+          algorithm = new Cscan();
+          break;
+        case SSTF:
+          algorithm = new Sstf();
+          break;
+        default:
+          algorithm = new Fifo();
+      }
+
+      int queueDepth = Integer.parseInt(args[1]);
       // Create new runner simulation.
-      Runner simulation = new Runner(new Disk(), requests,10, new Sstf());
+      Runner simulation = new Runner(new Disk(), requests, queueDepth, algorithm);
 
       // Run simulation and print total time.
       Double totalQueueTime = simulation.run();
+      System.out.println();
+      System.out.println(
+          "Running disk simulation with algorithm "
+              + algorithm.getName()
+              + " with a queue depth of "
+              + queueDepth
+              + " using file "
+              + fileName);
       System.out.printf("Total queue time: %.1f\n", totalQueueTime);
       System.out.printf("Average queue wait time: %.1f", totalQueueTime / requests.size());
 
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 
   /**
@@ -76,9 +98,9 @@ public class DiskSimulation {
     if (args.length == 3) {
 
       // Parse ALGORITHM TYPE argument.
-      ALGORITHMS alorithmType = null;
+      Algorithms alorithmType = null;
       try {
-        alorithmType = ALGORITHMS.valueOf(args[0].toUpperCase());
+        alorithmType = Algorithms.valueOf(args[0].toUpperCase());
       } catch (IllegalArgumentException iae) {
         System.err.println("Provided argument for 'algorithm' is not valid.");
         validArguments = false;
@@ -124,7 +146,7 @@ public class DiskSimulation {
   private static LinkedList<Integer> getRequestsFromFile(File file) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(file));
 
-    LinkedList<Integer> requests = new LinkedList<Integer>();
+    LinkedList<Integer> requests = new LinkedList<>();
 
     String line;
     while ((line = br.readLine()) != null) {

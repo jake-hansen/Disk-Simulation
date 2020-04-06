@@ -58,13 +58,13 @@ public class Scheduler {
    * @param disk Disk to use.
    */
   public Scheduler(LinkedList<Integer> requests, int queueDepth, Algorithm algorithm, Disk disk) {
-    this.requests = new LinkedList<Request>();
+    this.requests = new LinkedList<>();
     for (Integer i : requests) {
       this.requests.add(new Request(i));
     }
     this.queueTotalTime = 0.0;
     this.queueDepth = queueDepth;
-    this.queue = new LinkedList<Request>();
+    this.queue = new LinkedList<>();
     this.algorithmClass = algorithm;
     this.disk = disk;
   }
@@ -99,13 +99,13 @@ public class Scheduler {
    */
   public Request read() {
     // Sort queue based on algorithm
-    queue = algorithmClass.sort(queue, disk.getCurrentHeadPosition());
+    queue =
+        algorithmClass.sort(queue, disk.getCurrentHeadPosition());
 
     // Now that the queue is sorted, simulate retrieving the next block and obtain seek time
     Request requestToRetrieve = queue.remove();
     Double seekTime =
         disk.getSeekTime(disk.getCurrentHeadPosition(), requestToRetrieve.getNumber());
-    System.out.println(disk.getCurrentHeadPosition() + " -> " + requestToRetrieve.getNumber() + " Seek time: " + seekTime);
 
     // Add seek time to requests current wait time
     requestToRetrieve.setTime(requestToRetrieve.getTime() + seekTime);

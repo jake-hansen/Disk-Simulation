@@ -1,9 +1,11 @@
 package main.java.simulator;
 
+import java.util.LinkedList;
 import main.java.algorithms.Algorithm;
 
-import java.util.LinkedList;
-
+/**
+ * Manages a disk simulation.
+ */
 public class Runner {
 
   /** Disk to use for simulation. */

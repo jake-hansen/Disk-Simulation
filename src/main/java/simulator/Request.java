@@ -1,7 +1,7 @@
 package main.java.simulator;
 
-/** Represents a block request. */
-public class Request {
+/** Represents a cylinder request. */
+public class Request implements Comparable<Request> {
 
   /** Cylinder number. */
   private Integer number;
@@ -63,5 +63,10 @@ public class Request {
   @Override
   public String toString() {
     return "Request block: " + number + " Time: " + time;
+  }
+
+  @Override
+  public int compareTo(Request o) {
+    return this.getNumber().compareTo(o.getNumber());
   }
 }
